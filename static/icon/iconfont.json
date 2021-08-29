@@ -1,0 +1,23 @@
+{
+  "id": "2759308",
+  "name": "lms",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "23756720",
+      "name": "点赞",
+      "font_class": "dianzan-copy",
+      "unicode": "e65d",
+      "unicode_decimal": 58973
+    },
+    {
+      "icon_id": "1985085",
+      "name": "点赞",
+      "font_class": "dianzan",
+      "unicode": "e65c",
+      "unicode_decimal": 58972
+    }
+  ]
+}

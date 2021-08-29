@@ -1,0 +1,333 @@
+<template>
+  <div class="container1" v-loading="initSuccess" style="width: 100%">
+    <div class="testBox">
+      <div v-if="!showResultBox">
+        <!-- <div class="time">10</div> -->
+        <div class="slider">
+          <el-slider :step="10" disabled :value="(testNum + 1) * 10">
+          </el-slider>
+        </div>
+      </div>
+      <div class="content" ref="content">
+        <div class="answerBox" v-if="!showResultBox">
+          <div class="left">
+            <div class="garbageName">{{ showTest.name }}</div>
+            <div class="question">属于右边哪种分类？</div>
+          </div>
+          <div class="itemBox">
+            <div class="item" @click="answer(1)">可回收物</div>
+            <div class="item" @click="answer(2)">有害垃圾</div>
+            <div class="item" @click="answer(3)">厨余垃圾</div>
+            <div class="item" @click="answer(4)">其他垃圾</div>
+          </div>
+        </div>
+        <div class="resultBox" v-else>
+          <div class="left">
+            <div class="score">
+              获得<span>{{ score }}</span
+              >分
+            </div>
+            <div ref="chart" style="width: 270px; height: 180px"></div>
+            <div class="again" @click="again">在测一次</div>
+          </div>
+          <div class="analysis">
+            <div class="item" v-for="(item, index) in testList" :key="index">
+              <div class="name">{{ item.name }}</div>
+              <div class="flex">
+                <div
+                  :class="
+                    item.answerType == item.belongType ? 'right' : 'error'
+                  "
+                >
+                  {{
+                    item.answerType == 1
+                      ? "可回收物"
+                      : item.answerType == 2
+                      ? "有害垃圾"
+                      : item.answerType == 3
+                      ? "厨余垃圾"
+                      : "其他垃圾"
+                  }}
+                </div>
+                <div
+                  :class="
+                    item.answerType == item.belongType ? 'right' : 'normal'
+                  "
+                >
+                  {{
+                    item.belongType == 1
+                      ? "可回收物"
+                      : item.belongType == 2
+                      ? "有害垃圾"
+                      : item.belongType == 3
+                      ? "厨余垃圾"
+                      : "其他垃圾"
+                  }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import * as echarts from "echarts";
+export default {
+  data() {
+    return {
+      initSuccess: false,
+      testList: [],
+      showTest: {},
+      testNum: 0,
+      answerTypeList: [],
+      score: 0,
+      showResultBox: false,
+    };
+  },
+  created() {
+    this.getTestList();
+  },
+  mounted() {},
+  methods: {
+    //发起请求获取答题数据
+    async getTestList() {
+      this.initSuccess = true;
+      this.testList = await window.$common.get(
+        "http://47.243.88.190:8889/getgarbage?size=10"
+      );
+      this.initSuccess = false;
+      this.showTest = this.testList[this.testNum];
+      console.log(this.testList);
+    },
+    //点击回答问题
+    answer(e) {
+      if (this.answerTypeList.length < 10) {
+        this.answerTypeList.push(e);
+      }
+      if (this.testNum >= 9) {
+        this.showResultBox = true;
+        //展示答题结果数据
+        let count = 0; //统计答对的数量
+        for (let i = 0; i < 10; i++) {
+          this.testList[i].answerType = this.answerTypeList[i];
+          if (this.testList[i].belongType == this.answerTypeList[i]) {
+            count += 1;
+          }
+        }
+        this.score = count * 10;
+        console.log(count);
+        console.log(this.testList);
+        console.log(this.answerTypeList);
+        //等待dom元素创建好才执行
+        setTimeout(() => {
+          this.createEcharts();
+        });
+      } else {
+        this.testNum += 1;
+        this.showTest = this.testList[this.testNum];
+      }
+    },
+
+    //创建echars图表
+    createEcharts() {
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(this.$refs.chart);
+      // 绘制图表
+      myChart.setOption({
+        title: {
+          text: "正确率",
+          left: "center",
+        },
+        tooltip: {
+          trigger: "item",
+        },
+        legend: {
+          orient: "vertical",
+          left: "left",
+        },
+        series: [
+          {
+            type: "pie",
+            radius: "50%",
+            data: [
+              { value: this.score / 10, name: "正确" },
+              { value: 10 - this.score / 10, name: "错误" },
+            ],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: "rgba(0, 0, 0, 0.5)",
+              },
+            },
+          },
+        ],
+      });
+    },
+    //点击在测试一次
+    again() {
+      this.$router.go(0);
+    },
+  },
+};
+</script>
+
+<style lang="less"scoped>
+div {
+  box-sizing: border-box;
+}
+.container1 {
+  background: url(../../assets/img/bg.jpg);
+  width: 1200px !important;
+  height: 700px;
+  margin: 0 auto;
+  position: relative;
+
+  .testBox {
+    padding: 20px;
+    background-color: #fff;
+    width: 700px;
+    height: 300px;
+    position: absolute;
+    top: 270px;
+    left: 300px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px #d5d5d5;
+    .time {
+      font-size: 20px;
+      text-align: center;
+      font-weight: 700;
+    }
+    ::v-deep .el-slider__bar {
+      background-color: #7ad423;
+    }
+    .content {
+      padding: 20px;
+      box-shadow: 0 0 10px #d5d5d5;
+      border-radius: 20px;
+      .answerBox {
+        display: flex;
+        .left {
+          width: 200px;
+          text-align: center;
+          .garbageName {
+            color: #4e4e4e;
+            font-weight: 700;
+            font-size: 30px;
+            margin-bottom: 30px;
+          }
+          .question {
+            font-size: 20px;
+          }
+        }
+        .itemBox {
+          padding: 5px;
+          text-align: center;
+          margin-left: 50px;
+          font-size: 20px;
+          width: 350px;
+          height: 150px;
+          display: flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          background-color: #fff;
+
+          .item:hover {
+            cursor: pointer;
+          }
+          .item {
+            width: 150px;
+            height: 40px;
+            line-height: 26px;
+            padding: 5px;
+            border-radius: 15px;
+            color: #fff;
+            font-weight: 700;
+          }
+          & div:nth-child(1) {
+            background-color: #4883c6;
+          }
+          & div:nth-child(1):hover {
+            background-color: #3b6ba1;
+          }
+          & div:nth-child(2) {
+            background-color: #ee4855;
+          }
+          & div:nth-child(2):hover {
+            background-color: #ca3d49;
+          }
+          & div:nth-child(3) {
+            background-color: #a16943;
+          }
+          & div:nth-child(3):hover {
+            background-color: #714a2f;
+          }
+          & div:nth-child(4) {
+            background-color: #7e7c7d;
+          }
+          & div:nth-child(4):hover {
+            background-color: #535252;
+          }
+        }
+      }
+      .resultBox {
+        display: flex;
+        .left {
+          position: relative;
+          text-align: center;
+          width: 300px;
+          span {
+            color: #f57a1a;
+            font-size: 30px;
+            font-weight: 700;
+          }
+          .again:hover {
+            cursor: pointer;
+            background-color: #ca3d49;
+          }
+          .again {
+            position: absolute;
+            top: 200px;
+            left: 85px;
+            font-size: 15px;
+            width: 100px;
+            height: 30px;
+            line-height: 18px;
+            padding: 5px;
+            border-radius: 15px;
+            color: #fff;
+            font-weight: 600;
+            background-color: #ee4855;
+          }
+        }
+        .analysis {
+          width: 100%;
+        }
+        .item {
+          display: flex;
+          justify-content: space-between;
+          font-size: 14px;
+          margin-bottom: 3px;
+          .name {
+            margin-left: 50px;
+          }
+          .right {
+            color: #70cb7c;
+            margin-left: 30px;
+          }
+          .error {
+            color: #e35e52;
+          }
+          .normal {
+            color: #aaaaaa;
+            margin-left: 30px;
+          }
+        }
+      }
+    }
+  }
+}
+</style>
