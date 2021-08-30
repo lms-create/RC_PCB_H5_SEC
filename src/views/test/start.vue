@@ -46,11 +46,11 @@ div {
 .container {
   background: #fff;
   padding: 50px;
-  width: 70vw !important;
-  height: 800px;
+  width: 1200px !important;
+  height: 700px;
   margin: 0 auto;
   > h3 {
-    padding: 0.5em;
+    padding: 0.3em;
     text-align: center;
     font-size: 50px;
     letter-spacing: 1em;
@@ -78,7 +78,7 @@ div {
     }
     .begin {
       width: 280px;
-      height: 340px;
+      height: 270px;
       background-color: #f8c813;
       box-shadow: 0 0 10px #dba205;
       border-radius: 20px;
@@ -92,7 +92,7 @@ div {
       .start {
         width: 90px;
         height: 90px;
-        margin: 1.5em auto;
+        margin: 0.5em auto;
         img {
           width: 100%;
           height: 100%;
@@ -111,7 +111,7 @@ div {
       box-shadow: 0 0 10px #d5d5d5;
       border-radius: 20px;
       width: 100%;
-      height: 340px;
+      height: 270px;
     }
     div {
       margin-top: 1em;

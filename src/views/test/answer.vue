@@ -1,5 +1,5 @@
 <template>
-  <div class="container1" v-loading="initSuccess" style="width: 100%">
+  <div class="container" v-loading="initSuccess" style="width: 100%">
     <div class="testBox">
       <div v-if="!showResultBox">
         <!-- <div class="time">10</div> -->
@@ -193,12 +193,14 @@ export default {
 div {
   box-sizing: border-box;
 }
-.container1 {
+.container {
   position: relative;
   background: url(../../assets/img/bg.jpg) no-repeat;
-  width: 1200px;
+  width: 1200px !important;
   height: 700px;
   margin: 0 auto;
+  // left: 50%;
+  // transform: translateX(-50%);
 
   .testBox {
     padding: 1em;
