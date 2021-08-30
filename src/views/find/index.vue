@@ -18,23 +18,24 @@
               <h3>{{ items.title }}</h3>
               <p class="content-describe">{{ items.describe }}</p>
             </div>
-            <!-- <div
-              v-show="isActive" 
-              class="pick-button" 
-              style="flex-grow:1"
-            >
+            <!-- <div v-show="isActive" class="pick-button" style="flex-grow: 1">
               <i
-                @mouseover="mouseOver" 
-                @mouseleave="mouseLeave" 
+                @mouseover="mouseOver"
+                @mouseleave="mouseLeave"
                 class="pick iconfont"
               >
                 &#xe65c;
               </i>
-              <span>{{ items.__v }}</span>
+              <span>{{ items.praiseNum }}</span>
             </div> -->
-            <div v-show="isActive" class="pick-button" style="flex-grow: 1">
+            <div
+              v-show="isActive"
+              class="pick-button"
+              style="flex-grow: 1"
+              @click.stop="parise(items._id)"
+            >
               <i class="pick iconfont"> &#xe65c; </i>
-              <span>{{ items.__v }}</span>
+              <span>{{ items.praiseNum }}</span>
             </div>
           </div>
           <div class="card-content-img">
@@ -56,35 +57,48 @@
                 v-model="input"
                 clearable
               >
-                </el-input>
-              <el-button type="success" @click="throrrle()" plain>搜索</el-button>
+              </el-input>
+              <el-button type="success" @click="throrrle()" plain
+                >搜索</el-button
+              >
             </div>
             <div
               v-show="!tagList.length"
-              style="text-align:center;font-weight:300;font-size:14px;margin-top:15px"
+              style="
+                text-align: center;
+                font-weight: 300;
+                font-size: 14px;
+                margin-top: 15px;
+              "
             >
               无历史搜索记录
             </div>
-            <div class="flex tag" style="width:300px;">
-              <el-tag 
-                v-show="tagList" 
-                size="mini" 
+            <div class="flex tag" style="width: 300px">
+              <el-tag
+                v-show="tagList"
+                size="mini"
                 type="info"
-                @close="delTag(items.id)" 
-                closable 
-                v-for="items in tagList" 
+                @close="delTag(items.id)"
+                closable
+                v-for="items in tagList"
                 :key="items.id"
               >
-              {{ items.title }}
+                {{ items.title }}
               </el-tag>
             </div>
           </div>
           <div class="hotSearch">
             <p>热搜：</p>
             <div style="margin-top: 10px">
-              <div class="top1"><span>1、</span><a href="#">捡垃圾被蚂蚁咬了会变成蚁人吗</a></div>
-              <div style="font-size: 17px"><span>2、</span><a href="#">如何让富婆爱上我</a></div>
-              <div style="font-size: 15px"><span>3、</span><a href="#">垃圾分类可以年入百万吗</a></div>
+              <div class="top1">
+                <span>1、</span><a href="#">捡垃圾被蚂蚁咬了会变成蚁人吗</a>
+              </div>
+              <div style="font-size: 17px">
+                <span>2、</span><a href="#">如何让富婆爱上我</a>
+              </div>
+              <div style="font-size: 15px">
+                <span>3、</span><a href="#">垃圾分类可以年入百万吗</a>
+              </div>
             </div>
           </div>
         </div>
@@ -92,10 +106,14 @@
           <h3>你觉得你的垃圾分类知识如何？</h3>
           <p>看了那么多,快来答题吧！</p>
           <p>👇👇👇</p>
-          <el-button style="margin-top: 20px" type="primary" @click="$router.push('/test')">点击答题</el-button>
+          <el-button
+            style="margin-top: 20px"
+            type="primary"
+            @click="$router.push('/test')"
+            >点击答题</el-button
+          >
         </div>
       </div>
-      
     </div>
     <div class="flex-1"></div>
   </div>
@@ -109,19 +127,18 @@ export default {
       cardMessage: [],
       initSuccess: false,
       isActive: true,
-      input: '',
-      tagList:[],
+      input: "",
+      tagList: [],
       tagId: 0,
-      timer: null
+      timer: null,
     };
   },
   watch: {
-    input:function(val){
-      if(val ==='' && this.cardMessage.length != this.ListData.length)
-      {
-        this.cardMessage = this.ListData
+    input: function (val) {
+      if (val === "" && this.cardMessage.length != this.ListData.length) {
+        this.cardMessage = this.ListData;
       }
-    }
+    },
   },
   created() {
     this.getListData();
@@ -133,9 +150,8 @@ export default {
       window.$common
         .get("http://47.243.88.190:8889/articleall")
         .then((response) => {
-          setTimeout(() => {
-            this.initSuccess = false;
-          }, 500);
+          this.initSuccess = false;
+
           console.log(response);
           this.ListData = response;
           this.cardMessage = response;
@@ -149,62 +165,60 @@ export default {
       // 鼠标移出事件
       this.isActive = true;
     },
-    delTag(id) { //删除
-      let index = this.tagList.findIndex(item => item.id === id)
-      this.tagList.splice(index,1)
+    delTag(id) {
+      //删除
+      let index = this.tagList.findIndex((item) => item.id === id);
+      this.tagList.splice(index, 1);
     },
-    throrrle(time = 1000){ //节流
-      if(this.timer === null){
-        this.search()
+    throrrle(time = 1000) {
+      //节流
+      if (this.timer === null) {
+        this.search();
         this.timer = setTimeout(() => {
           this.timer = null;
         }, time);
       }
     },
-    search(){
-      if(this.input === '')
-      {
+    search() {
+      if (this.input === "") {
         this.$message({
-          message: '请输入搜索内容',
-          type: 'warning'
+          message: "请输入搜索内容",
+          type: "warning",
         });
-      }else {
+      } else {
         let find = new RegExp(this.input);
         let flagList = [];
-        for(let i = 0;i<this.cardMessage.length;i++)
-        {
-          if(find.test(this.cardMessage[i].title) === true)
-          {
+        for (let i = 0; i < this.cardMessage.length; i++) {
+          if (find.test(this.cardMessage[i].title) === true) {
             flagList.push(this.cardMessage[i]);
           }
         }
-        if(flagList.length)
-        {
-          this.cardMessage = flagList
-        }else {
-          this.$message({
-          message: '无相关内容',
-          type: 'warning'
-        });
-        }
-        if(this.tagList.length <5)
-        {
-          this.tagList.unshift(
-            {
-              title: this.input.length > 5 ?this.input.slice(0,5)+'...' : this.input,
-              id: this.tagId++
-            }
-          )
+        if (flagList.length) {
+          this.cardMessage = flagList;
         } else {
-          this.tagList.pop()
-          this.tagList.unshift(
-            {
-              title: this.input.length > 5 ?this.input.slice(0,5)+'...' : this.input,
-              id: this.tagId++
-            }
-          )
+          this.$message({
+            message: "无相关内容",
+            type: "warning",
+          });
         }
-        
+        if (this.tagList.length < 5) {
+          this.tagList.unshift({
+            title:
+              this.input.length > 5
+                ? this.input.slice(0, 5) + "..."
+                : this.input,
+            id: this.tagId++,
+          });
+        } else {
+          this.tagList.pop();
+          this.tagList.unshift({
+            title:
+              this.input.length > 5
+                ? this.input.slice(0, 5) + "..."
+                : this.input,
+            id: this.tagId++,
+          });
+        }
       }
       console.log(this.tagList);
     },
@@ -215,6 +229,15 @@ export default {
         path: "/find/detail",
         query: { id: cardId },
       });
+    },
+    //点赞
+    async parise(e) {
+      let _id = e;
+      const data = await window.$common.get(
+        `http://47.243.88.190:8889/praise?_id=${_id}`
+      );
+      //重新获取文章列表页
+      this.getListData();
     },
   },
 };
@@ -247,6 +270,9 @@ export default {
             .pick {
               width: 10px;
               height: 10px;
+            }
+            .pick:hover {
+              cursor: pointer;
             }
             span {
               color: #4e5969;
@@ -282,7 +308,7 @@ export default {
         background-color: rgb(251, 251, 251);
       }
     }
-    .content-right{
+    .content-right {
       flex-grow: 2;
       .right-top {
         // background-color: rgb(109, 66, 66);
@@ -292,62 +318,61 @@ export default {
         background-color: #fff;
         margin: 0 20px;
         height: 300px;
-        .search{
+        .search {
           // align-items: center;
           margin-top: 20px;
           justify-content: center;
-          .el-button{
+          .el-button {
             margin-left: 10px;
             width: 75px;
           }
-          .el-input{
+          .el-input {
             width: 200px;
           }
         }
-        .tag{
+        .tag {
           margin-left: 25px;
-          justify-content:flex-start;
-          flex-wrap:wrap;
-          .el-tag{
+          justify-content: flex-start;
+          flex-wrap: wrap;
+          .el-tag {
             margin-top: 5px;
             margin-right: 5px;
           }
         }
-        .hotSearch{
+        .hotSearch {
           bottom: 0;
           height: 150px;
           margin-left: 30px;
           display: flex;
           flex-direction: column;
-          p{
+          p {
             font-weight: 500;
           }
-          a{
+          a {
             text-decoration: none;
             color: black;
           }
-          .top1{
+          .top1 {
             color: red;
             font-size: 18px;
-            a{
+            a {
               color: red;
             }
           }
         }
       }
-      .right-bottom{
+      .right-bottom {
         display: flex;
         flex-direction: column;
         align-items: center;
         background-color: #fff;
         margin: 20px 20px;
         height: 200px;
-        h3{
+        h3 {
           margin-top: 20px;
         }
       }
     }
-    
   }
 }
 </style>
