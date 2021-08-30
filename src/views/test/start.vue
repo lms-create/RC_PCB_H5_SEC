@@ -46,21 +46,22 @@ div {
 .container {
   background: #fff;
   padding: 50px;
-  width: 1200px;
-  height: 700px;
+  width: 70vw !important;
+  height: 800px;
   margin: 0 auto;
   > h3 {
+    padding: 0.5em;
     text-align: center;
     font-size: 50px;
-    letter-spacing: 50px;
+    letter-spacing: 1em;
     color: #213768;
     border-radius: 20px;
     box-shadow: 0 0 10px #d5d5d5;
   }
   .logo {
-    margin-top: 20px;
-    height: 150px;
-    width: 254px;
+    margin-top: 1.5em;
+    height: 170px;
+    width: 284px;
     img {
       width: 100%;
       height: 100%;
@@ -68,7 +69,7 @@ div {
   }
 
   .body {
-    margin-top: 20px;
+    margin-top: 1.5em;
     display: flex;
     .begin:hover {
       cursor: pointer;
@@ -76,22 +77,22 @@ div {
       background-color: #f8b808;
     }
     .begin {
-      width: 250px;
-      height: 300px;
+      width: 280px;
+      height: 340px;
       background-color: #f8c813;
       box-shadow: 0 0 10px #dba205;
       border-radius: 20px;
       text-align: center;
-      padding: 20px;
+      padding: 1.5em;
       span {
         color: #6f421f;
         font-size: 40px;
         font-weight: 700;
       }
       .start {
-        width: 80px;
-        height: 80px;
-        margin: 20px auto;
+        width: 90px;
+        height: 90px;
+        margin: 1.5em auto;
         img {
           width: 100%;
           height: 100%;
@@ -105,15 +106,15 @@ div {
         font-size: 24px;
         margin-bottom: 10px;
       }
-      margin-left: 40px;
+      margin-left: 1.5em;
       background-color: #fff;
       box-shadow: 0 0 10px #d5d5d5;
       border-radius: 20px;
-      width: 800px;
-      height: 300px;
+      width: 100%;
+      height: 340px;
     }
     div {
-      margin-top: 10px;
+      margin-top: 1em;
     }
   }
 }

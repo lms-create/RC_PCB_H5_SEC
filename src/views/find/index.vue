@@ -228,6 +228,7 @@ export default {
     .content-left {
       // background-color: rgb(85, 85, 148);
       // flex-grow: 3;
+      overflow: auto;
       box-shadow: inherit;
       height: 100%;
       .card {

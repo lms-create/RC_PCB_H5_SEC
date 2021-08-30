@@ -85,13 +85,27 @@ export default {
       answerTypeList: [],
       score: 0,
       showResultBox: false,
+      screenWidth: 0,
     };
   },
   created() {
     this.getTestList();
   },
-  mounted() {},
+  mounted() {
+    // 首次加载时,需要调用一次
+    this.screenWidth = window.innerWidth;
+    this.setSize();
+    // 窗口大小发生改变时,调用一次
+    window.onresize = () => {
+      this.screenWidth = window.innerWidth;
+      this.setSize();
+    };
+  },
   methods: {
+    setSize: function () {
+      // 通过浏览器宽度(图片宽度)计算高度
+      this.bannerHeight = (500 / 1920) * this.screenWidth;
+    },
     //发起请求获取答题数据
     async getTestList() {
       this.initSuccess = true;
@@ -180,20 +194,20 @@ div {
   box-sizing: border-box;
 }
 .container1 {
-  background: url(../../assets/img/bg.jpg);
-  width: 1200px !important;
-  height: 700px;
-  margin: 0 auto;
   position: relative;
+  background: url(../../assets/img/bg.jpg) no-repeat;
+  background-size: 100%;
+  width: 70% !important;
+  min-height: 800px;
+  margin: 0 auto;
 
   .testBox {
-    padding: 20px;
+    padding: 1em;
     background-color: #fff;
-    width: 700px;
-    height: 300px;
+    width: 65%;
     position: absolute;
-    top: 270px;
-    left: 300px;
+    top: 16vw;
+    left: 15vw;
     border-radius: 20px;
     box-shadow: 0 0 10px #d5d5d5;
     .time {
@@ -213,6 +227,7 @@ div {
         .left {
           width: 200px;
           text-align: center;
+          padding: 0.5em;
           .garbageName {
             color: #4e4e4e;
             font-weight: 700;
@@ -224,11 +239,11 @@ div {
           }
         }
         .itemBox {
-          padding: 5px;
+          padding: 0.5em;
           text-align: center;
           margin-left: 50px;
           font-size: 20px;
-          width: 350px;
+          width: 50%;
           height: 150px;
           display: flex;
           justify-content: space-between;
@@ -239,7 +254,7 @@ div {
             cursor: pointer;
           }
           .item {
-            width: 150px;
+            width: 40%;
             height: 40px;
             line-height: 26px;
             padding: 5px;
