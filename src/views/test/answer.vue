@@ -196,18 +196,17 @@ div {
 .container1 {
   position: relative;
   background: url(../../assets/img/bg.jpg) no-repeat;
-  background-size: 100%;
-  width: 70% !important;
-  min-height: 800px;
+  width: 1200px;
+  height: 700px;
   margin: 0 auto;
 
   .testBox {
     padding: 1em;
     background-color: #fff;
-    width: 65%;
+    width: 700px;
     position: absolute;
-    top: 16vw;
-    left: 15vw;
+    top: 280px;
+    left: 270px;
     border-radius: 20px;
     box-shadow: 0 0 10px #d5d5d5;
     .time {
@@ -226,6 +225,7 @@ div {
         display: flex;
         .left {
           width: 200px;
+          height: 150px;
           text-align: center;
           padding: 0.5em;
           .garbageName {
@@ -243,7 +243,7 @@ div {
           text-align: center;
           margin-left: 50px;
           font-size: 20px;
-          width: 50%;
+          width: 400px;
           height: 150px;
           display: flex;
           justify-content: space-between;
@@ -254,7 +254,7 @@ div {
             cursor: pointer;
           }
           .item {
-            width: 40%;
+            width: 150px;
             height: 40px;
             line-height: 26px;
             padding: 5px;
