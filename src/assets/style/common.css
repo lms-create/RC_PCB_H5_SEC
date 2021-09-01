@@ -1,35 +1,35 @@
-.background-color{
+.background-color {
   background-color: aliceblue;
 }
-.h100{
+.h100 {
   height: 100%;
 }
-.flex-end{
+.flex-end {
   display: flex;
   justify-content: flex-end;
 }
-.lf-margin-20{
+.lf-margin-20 {
   margin: 0 20px !important;
 }
-.lf-margin-50{
+.lf-margin-50 {
   margin-left: 20px !important;
   margin-right: 50px !important;
 }
-.flex{
+.flex {
   display: flex;
 }
-.flex-column{
+.flex-column {
   display: flex;
   flex-direction: column;
 }
-.flex-center{
+.flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.flex-1{
+.flex-1 {
   flex: 1;
 }
-.hover-color{
+.hover-color {
   color: #1296db;
 }

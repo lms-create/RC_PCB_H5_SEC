@@ -3,10 +3,6 @@
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>{{ detail.title }}</span>
-        <!-- <div style="float: right; padding: 3px 0" type="text">
-          i标签那里缺了个点赞按钮图标
-          <i></i><span>{{ detail.praise }}</span>
-        </div> -->
       </div>
       <div class="text item">
         <el-image fit="fill" :src="detail.pic"></el-image>
@@ -40,8 +36,12 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+@media screen and (min-width: 1280px) {
+  .container {
+    width: 1280px;
+  }
+}
 .container {
-  width: 70vw;
   margin: 0 auto;
   .el-card {
     width: 100%;

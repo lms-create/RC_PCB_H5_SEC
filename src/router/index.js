@@ -25,27 +25,26 @@ export default new Router({
             path: '/find/detail',
             name: 'FindDetail',
             component: () =>
-                import('@/views/find/detail.vue')
+                import ('@/views/find/detail.vue')
+        },
+        {
+            path: '/test/answer',
+            name: 'TestAnswer',
+            component: () =>
+                import ('@/views/test/answer.vue')
+
         },
         {
             path: '/test',
+            name: 'TestStart',
             component: () =>
-                import ('@/views/test/index.vue'),
-            children: [{
-                    path: '/',
-                    redirect: '/test/start'
-                },
-                {
-                    path: '/test/start',
-                    component: () =>
-                        import ('@/views/test/start.vue')
-                },
-                {
-                    path: '/test/answer',
-                    component: () =>
-                        import ('@/views/test/answer.vue')
-                }
-            ]
+                import ('@/views/test/start.vue')
+
+        }, {
+            path: '/test/index',
+            name: 'TestIndex',
+            component: () =>
+                import ('@/views/test/index.vue')
 
         }
     ]

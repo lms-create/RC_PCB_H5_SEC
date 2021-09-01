@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/display.css';
 import '@/assets/style/common.less' // global css
 import less from 'less'
 import common from '@/assets/script/common'

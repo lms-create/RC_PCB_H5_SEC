@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-loading="initSuccess" style="width: 100%">
+  <div class="container" v-loading="initSuccess">
     <div class="testBox">
       <div v-if="!showResultBox">
         <!-- <div class="time">10</div> -->
@@ -27,7 +27,11 @@
               获得<span>{{ score }}</span
               >分
             </div>
-            <div ref="chart" style="width: 270px; height: 180px"></div>
+            <div
+              class="chart"
+              ref="chart"
+              style="width: 270px; height: 180px"
+            ></div>
             <div class="again" @click="again">在测一次</div>
           </div>
           <div class="analysis">
@@ -196,19 +200,17 @@ div {
 .container {
   position: relative;
   background: url(../../assets/img/bg.jpg) no-repeat;
-  width: 1200px !important;
-  height: 700px;
+  height: 70vw;
+  background-size: 100%;
   margin: 0 auto;
-  // left: 50%;
-  // transform: translateX(-50%);
 
   .testBox {
     padding: 1em;
     background-color: #fff;
-    width: 700px;
+    width: 70%;
     position: absolute;
-    top: 280px;
-    left: 270px;
+    top: 23%;
+    left: 20%;
     border-radius: 20px;
     box-shadow: 0 0 10px #d5d5d5;
     .time {
@@ -234,7 +236,8 @@ div {
             color: #4e4e4e;
             font-weight: 700;
             font-size: 30px;
-            margin-bottom: 30px;
+
+            height: 85px;
           }
           .question {
             font-size: 20px;
@@ -341,6 +344,75 @@ div {
           .normal {
             color: #aaaaaa;
             margin-left: 30px;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (min-width: 1280px) {
+  .container {
+    width: 1280px !important;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .container {
+    background: #fff;
+    .testBox {
+      width: 100%;
+      top: 20px;
+      left: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .container {
+    background: #fff;
+
+    height: 100vh;
+    .testBox {
+      width: 100%;
+      top: 20px;
+      left: 0;
+      .content {
+        .answerBox {
+          display: block;
+          .left {
+            width: 100%;
+          }
+          .itemBox {
+            width: 100%;
+            margin-left: 0;
+            .item {
+              width: 40%;
+            }
+          }
+        }
+        .resultBox {
+          display: block;
+          .left {
+            width: 100%;
+            text-align: center;
+            .score {
+              width: 100%;
+            }
+            .chart {
+              text-align: center;
+              width: 270px !important;
+              height: 180px;
+              margin: 0 auto;
+            }
+            .again {
+              position: static;
+              margin: 0 auto;
+            }
+          }
+          .analysis {
+            .name {
+              margin-left: 0 !important;
+            }
           }
         }
       }

@@ -1,24 +1,24 @@
 <template>
-  <div class="flex find">
+  <div class="find container">
     <!--3栏式布局 中间固定两边自适应-->
-    <div class="flex-1"></div>
-    <div v-loading="initSuccess" style="width: 1000px" class="content flex">
-      <div class="content-left">
+    <el-row v-loading="initSuccess" class="content flex">
+      <el-col :sm="16" class="content-left">
         <div
           @click="toDetail(items._id)"
           class="card flex-center"
           v-for="items in cardMessage"
           :key="items._id"
         >
-          <div class="card-content flex-column">
-            <div style="flex-grow: 1" class="card-content-time">
-              <p>{{ items.date }}</p>
-            </div>
-            <div style="flex-grow: 3" class="card-content-title">
-              <h3>{{ items.title }}</h3>
-              <p class="content-describe">{{ items.describe }}</p>
-            </div>
-            <!-- <div v-show="isActive" class="pick-button" style="flex-grow: 1">
+          <el-row>
+            <el-col :sm="17" class="card-content flex-column">
+              <div style="flex-grow: 1" class="card-content-time">
+                <p>{{ items.date }}</p>
+              </div>
+              <div style="flex-grow: 3" class="card-content-title">
+                <h3>{{ items.title }}</h3>
+                <p class="content-describe">{{ items.describe }}</p>
+              </div>
+              <!-- <div v-show="isActive" class="pick-button" style="flex-grow: 1">
               <i
                 @mouseover="mouseOver"
                 @mouseleave="mouseLeave"
@@ -28,27 +28,24 @@
               </i>
               <span>{{ items.praiseNum }}</span>
             </div> -->
-            <div
-              v-show="isActive"
-              class="pick-button"
-              style="flex-grow: 1"
-              @click.stop="parise(items._id)"
-            >
-              <i class="pick iconfont"> &#xe65c; </i>
-              <span>{{ items.praiseNum }}</span>
-            </div>
-          </div>
-          <div class="card-content-img">
-            <el-image
-              style="width: 130px; height: 130px"
-              :src="items.pic"
-              fit="contain"
-            >
-            </el-image>
-          </div>
+              <div
+                v-show="isActive"
+                class="pick-button"
+                style="flex-grow: 1"
+                @click.stop="parise(items._id)"
+              >
+                <i class="pick iconfont"> &#xe65c; </i>
+                <span>{{ items.praiseNum }}</span>
+              </div>
+            </el-col>
+            <el-col :sm="7" class="card-content-img hidden-xs-only">
+              <el-image style="width: 80%" :src="items.pic" fit="contain">
+              </el-image>
+            </el-col>
+          </el-row>
         </div>
-      </div>
-      <div class="content-right">
+      </el-col>
+      <el-col :sm="8" class="content-right">
         <div class="right-top">
           <div>
             <div class="flex search">
@@ -113,9 +110,8 @@
             >点击答题</el-button
           >
         </div>
-      </div>
-    </div>
-    <div class="flex-1"></div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -223,6 +219,7 @@ export default {
       console.log(this.tagList);
     },
     toDetail(cardId) {
+      console.log(1);
       // 跳转详情
       // console.log("query" + cardId);
       this.$router.push({
@@ -244,13 +241,32 @@ export default {
 </script>
 
 <style lang="less">
+/* 因为设计稿是1280 的，所以我们要修改宽度 */
+
+@media screen and (min-width: 1280px) {
+  .container {
+    width: 1280px;
+  }
+}
+
+// 超小屏时
+@media screen and (max-width: 767px) {
+  .container {
+    .content {
+      display: block;
+    }
+  }
+}
+
+.container {
+  margin: 0 auto;
+}
 .find {
   height: 100%;
   .content {
+    width: 100%;
     height: 100%;
     .content-left {
-      // background-color: rgb(85, 85, 148);
-      // flex-grow: 3;
       overflow: auto;
       box-shadow: inherit;
       height: 100%;
@@ -260,11 +276,7 @@ export default {
         // box-sizing: border-box;
         padding: 0 40px;
         border-bottom: 1px solid #e5e6eb;
-        .card-content-img {
-          width: 150px;
-        }
         .card-content {
-          flex: 1;
           height: 100%;
           .pick-button {
             .pick {
@@ -293,7 +305,7 @@ export default {
           }
           .card-content-title {
             padding: 10px 0;
-            width: 400px;
+            width: 90%;
           }
           .card-content-time {
             // width: 400px;
@@ -309,14 +321,13 @@ export default {
       }
     }
     .content-right {
-      flex-grow: 2;
       .right-top {
         // background-color: rgb(109, 66, 66);
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         background-color: #fff;
-        margin: 0 20px;
+        margin-left: 20px;
         height: 300px;
         .search {
           // align-items: center;
@@ -366,7 +377,7 @@ export default {
         flex-direction: column;
         align-items: center;
         background-color: #fff;
-        margin: 20px 20px;
+        margin: 20px 0px 0 20px;
         height: 200px;
         h3 {
           margin-top: 20px;

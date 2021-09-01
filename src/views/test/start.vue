@@ -46,8 +46,6 @@ div {
 .container {
   background: #fff;
   padding: 50px;
-  width: 1200px !important;
-  height: 700px;
   margin: 0 auto;
   > h3 {
     padding: 0.3em;
@@ -78,7 +76,7 @@ div {
     }
     .begin {
       width: 280px;
-      height: 270px;
+
       background-color: #f8c813;
       box-shadow: 0 0 10px #dba205;
       border-radius: 20px;
@@ -111,10 +109,44 @@ div {
       box-shadow: 0 0 10px #d5d5d5;
       border-radius: 20px;
       width: 100%;
-      height: 270px;
     }
     div {
       margin-top: 1em;
+    }
+  }
+}
+@media screen and (min-width: 1280px) {
+  .container {
+    width: 1280px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .container {
+    > h3 {
+      font-size: 30px;
+    }
+    .body {
+      display: block;
+      .begin {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        span {
+          font-size: 20px;
+        }
+        .start {
+          width: 50px;
+          height: 50px;
+          margin: 0;
+        }
+      }
+      .rule {
+        h3 {
+          font-size: 18px;
+        }
+        margin: 10px 0;
+      }
     }
   }
 }
