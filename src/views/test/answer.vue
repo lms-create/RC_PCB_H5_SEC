@@ -118,7 +118,6 @@ export default {
       );
       this.initSuccess = false;
       this.showTest = this.testList[this.testNum];
-      console.log(this.testList);
     },
     //点击回答问题
     answer(e) {
@@ -209,8 +208,8 @@ div {
     background-color: #fff;
     width: 70%;
     position: absolute;
-    top: 23%;
-    left: 20%;
+    top: 320px;
+    left: 250px;
     border-radius: 20px;
     box-shadow: 0 0 10px #d5d5d5;
     .time {
@@ -355,6 +354,15 @@ div {
     width: 1280px !important;
   }
 }
+@media screen and (max-width: 1280px) {
+  .container {
+    color: red;
+    .testBox {
+      top: 34%;
+      right: 18%;
+    }
+  }
+}
 
 @media screen and (max-width: 991px) {
   .container {
@@ -376,6 +384,9 @@ div {
       width: 100%;
       top: 20px;
       left: 0;
+      width: 90%;
+      left: 50%;
+      transform: translateX(-50%);
       .content {
         .answerBox {
           display: block;

@@ -18,16 +18,7 @@
                 <h3>{{ items.title }}</h3>
                 <p class="content-describe">{{ items.describe }}</p>
               </div>
-              <!-- <div v-show="isActive" class="pick-button" style="flex-grow: 1">
-              <i
-                @mouseover="mouseOver"
-                @mouseleave="mouseLeave"
-                class="pick iconfont"
-              >
-                &#xe65c;
-              </i>
-              <span>{{ items.praiseNum }}</span>
-            </div> -->
+
               <div
                 v-show="isActive"
                 class="pick-button"
@@ -39,7 +30,11 @@
               </div>
             </el-col>
             <el-col :sm="7" class="card-content-img hidden-xs-only">
-              <el-image style="width: 80%" :src="items.pic" fit="contain">
+              <el-image
+                style="width: 80%; margin: 20px 0 0 20px"
+                :src="items.pic"
+                fit="contain"
+              >
               </el-image>
             </el-col>
           </el-row>
@@ -86,16 +81,23 @@
           </div>
           <div class="hotSearch">
             <p>热搜：</p>
-            <div style="margin-top: 10px">
-              <div class="top1">
-                <span>1、</span><a href="#">捡垃圾被蚂蚁咬了会变成蚁人吗</a>
+            <div
+              style="margin-top: 10px"
+              v-for="(items, index) in hotList"
+              :key="index"
+            >
+              <div
+                :class="index == 0 ? 'top1' : index === 1 ? 'top2' : 'top3'"
+                @click="toDetail(items._id)"
+              >
+                <span>{{ index + 1 }}、</span><a>{{ items.title }}</a>
               </div>
-              <div style="font-size: 17px">
+              <!-- <div style="font-size: 17px">
                 <span>2、</span><a href="#">如何让富婆爱上我</a>
               </div>
               <div style="font-size: 15px">
                 <span>3、</span><a href="#">垃圾分类可以年入百万吗</a>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -136,11 +138,30 @@ export default {
       }
     },
   },
+  computed: {
+    hotList() {
+      let arr = JSON.stringify(this.cardMessage);
+      let arrClone = JSON.parse(arr);
+      arrClone.sort(this.getSortFun("desc", "praiseNum"));
+      return arrClone.slice(0, 3);
+    },
+  },
   created() {
     this.getListData();
   },
   methods: {
-    getListData() {
+    //排序函数
+    getSortFun(order, sortBy) {
+      var ordAlpah = order == "asc" ? ">" : "<";
+      var sortFun = new Function(
+        "a",
+        "b",
+        "return a." + sortBy + ordAlpah + "b." + sortBy + "?1:-1"
+      );
+      return sortFun;
+    },
+
+    async getListData() {
       //获取发现首页列表数据
       this.initSuccess = true;
       window.$common
@@ -148,7 +169,7 @@ export default {
         .then((response) => {
           this.initSuccess = false;
 
-          console.log(response);
+          // console.log(response);
           this.ListData = response;
           this.cardMessage = response;
         });
@@ -216,10 +237,9 @@ export default {
           });
         }
       }
-      console.log(this.tagList);
+      // console.log(this.tagList);
     },
     toDetail(cardId) {
-      console.log(1);
       // 跳转详情
       // console.log("query" + cardId);
       this.$router.push({
@@ -241,23 +261,6 @@ export default {
 </script>
 
 <style lang="less">
-/* 因为设计稿是1280 的，所以我们要修改宽度 */
-
-@media screen and (min-width: 1280px) {
-  .container {
-    width: 1280px;
-  }
-}
-
-// 超小屏时
-@media screen and (max-width: 767px) {
-  .container {
-    .content {
-      display: block;
-    }
-  }
-}
-
 .container {
   margin: 0 auto;
 }
@@ -305,7 +308,7 @@ export default {
           }
           .card-content-title {
             padding: 10px 0;
-            width: 90%;
+            width: 100%;
           }
           .card-content-time {
             // width: 400px;
@@ -363,12 +366,22 @@ export default {
             text-decoration: none;
             color: black;
           }
+
           .top1 {
-            color: red;
-            font-size: 18px;
+            cursor: pointer;
+            color: #ff4600;
+            font-size: 17px;
             a {
-              color: red;
+              color: #ff4600;
             }
+          }
+          .top2 {
+            cursor: pointer;
+            font-size: 16px;
+          }
+          .top3 {
+            cursor: pointer;
+            font-size: 15px;
           }
         }
       }
@@ -382,6 +395,28 @@ export default {
         h3 {
           margin-top: 20px;
         }
+      }
+    }
+  }
+}
+/* 因为设计稿是1280 的，所以我们要修改宽度 */
+
+@media screen and (min-width: 1280px) {
+  .container {
+    width: 1280px;
+  }
+}
+
+// 超小屏时
+@media screen and (max-width: 767px) {
+  .container {
+    .content {
+      display: block;
+      .right-top {
+        margin: 10px 0 0 0 !important;
+      }
+      .right-bottom {
+        margin: 10px 0 0 0 !important;
       }
     }
   }

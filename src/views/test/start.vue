@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h3>在线闯关</h3>
-    <div class="logo">
+    <div class="logo hidden-xs-only">
       <img src="../../assets/img/logo.jpg" alt="" />
     </div>
     <div class="body">
@@ -124,6 +124,7 @@ div {
 @media screen and (max-width: 767px) {
   .container {
     > h3 {
+      letter-spacing: 0.5em;
       font-size: 30px;
     }
     .body {

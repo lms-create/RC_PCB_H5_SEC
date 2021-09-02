@@ -29,17 +29,10 @@ export default {
 };
 </script>
 
-<style lang="less"scoped>
+<style lang="less" scoped>
 * {
   margin: 0;
   padding: 0;
-}
-html,
-body,
-#app {
-  height: 100%;
-  background-color: #f4f5f5;
-  //overflow: hidden;
 }
 
 .router-link-active {
@@ -51,7 +44,8 @@ body,
   box-sizing: border-box;
 }
 .el-header {
-  width: 100vw;
+  position: relative;
+  width: 100%;
   display: flex;
   padding: 0 100px;
   background-color: #fff;

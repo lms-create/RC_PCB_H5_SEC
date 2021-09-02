@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-loading="initSuccess">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>{{ detail.title }}</span>
@@ -17,6 +17,7 @@ export default {
   name: "Detail",
   data() {
     return {
+      initSuccess: false,
       detail: {},
     };
   },
@@ -26,11 +27,13 @@ export default {
   methods: {
     // ? 发起请求
     async getMessageData() {
+      this.initSuccess = true;
       let _id = this.$route.query.id;
       let response = await window.$common.get(
         `http://47.243.88.190:8889/praise?_id=${_id}`
       );
       this.detail = response;
+      this.initSuccess = false;
     },
   },
 };
