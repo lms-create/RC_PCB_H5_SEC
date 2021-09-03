@@ -135,9 +135,9 @@ export default {
           }
         }
         this.score = count * 10;
-        console.log(count);
-        console.log(this.testList);
-        console.log(this.answerTypeList);
+        // console.log(count);
+        // console.log(this.testList);
+        // console.log(this.answerTypeList);
         //等待dom元素创建好才执行
         setTimeout(() => {
           this.createEcharts();
