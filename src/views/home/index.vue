@@ -7,7 +7,7 @@
         </el-carousel-item>
       </el-carousel>
     </div>
-    <div style="display: flex" class="classify">
+    <div class="classify">
       <div>
         <h3>图片识别垃圾分类</h3>
         <div style="width: auto; height: auto">
@@ -28,12 +28,22 @@
           </el-upload>
         </div>
       </div>
-      <h3 v-for="items in Result" :key="items.cate_name" class="result">
-        垃圾名称：<span>{{ items.garbage_name }}</span
+      <h3 v-for="items in Result" :key="items.name" class="result">
+        垃圾名称：<span>{{ items.name }}</span
         ><br />
-        垃圾种类：<span>{{ items.cate_name }}</span
+        相识度：<span>{{ items.trust }}</span
         ><br />
-        注意事项：<span>{{ items.ps }}</span
+        垃圾种类：<span>{{
+          items.lajitype == 0
+            ? "可回收物"
+            : items.lajitype == 1
+            ? "有害垃圾"
+            : items.lajitype == 2
+            ? "厨余垃圾"
+            : "其他垃圾"
+        }}</span
+        ><br />
+        注意事项：<span>{{ items.lajitip }}</span
         ><br />
       </h3>
     </div>
@@ -52,13 +62,9 @@
           </p>
 
           <div class="el-pop">
-            <el-popover placement="right" width="400" trigger="click">
-              <el-table :data="Detail" height="280px" stripe>
-                <el-table-column
-                  width="360px"
-                  prop="name"
-                  label="可回收垃圾目录"
-                >
+            <el-popover placement="right" trigger="click">
+              <el-table :data="Detail" height="280px" stripe width="100%">
+                <el-table-column prop="name" label="垃圾目录">
                 </el-table-column>
               </el-table>
               <el-button
@@ -69,6 +75,13 @@
                 >查看详情</el-button
               >
             </el-popover>
+            <!-- <el-table :data="Detail" stripe style="width: 50%">
+              <el-table-column prop="name" label="可回收垃圾目录" width="180">
+              </el-table-column>
+              <el-table-column prop="name" label="姓名" width="180">
+              </el-table-column>
+              <el-table-column prop="address" label="地址"> </el-table-column>
+            </el-table> -->
           </div>
         </div>
       </div>
@@ -154,6 +167,7 @@ export default {
       //上传
       this.getBase64File(file.raw).then((res) => {
         res = res.replace(/^data:image\/\w+;base64,/, "");
+
         request
           .post("http://47.243.88.190:8889/classify", { imgBase64: res })
           .then((Result) => {
@@ -187,6 +201,29 @@ export default {
   },
 };
 </script>
+ 
+<style lang="less">
+/* 因为el-popover不在当前组件内，所以要使用全局样式 */
+.el-popover {
+  position: absolute;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 500px;
+  margin-left: 0 !important;
+  .el-table-column {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .el-popover {
+    width: 80%;
+    .el-table-column {
+      width: 90%;
+    }
+  }
+}
+</style>
 <style scoped lang="less">
 @media screen and (min-width: 1280px) {
   .container {
@@ -200,7 +237,6 @@ export default {
       float: left;
     }
     .classify {
-      display: block !important;
       .result {
         margin: 10px 0;
       }
@@ -227,6 +263,9 @@ export default {
     margin-top: 5px;
     background-color: #fff;
     box-sizing: border-box;
+    h2 {
+      font-size: 1.2em;
+    }
   }
   .classify {
     margin-top: 20px;
@@ -237,10 +276,14 @@ export default {
     box-shadow: 0 0 2px #c2c2c2;
   }
   .result {
-    margin: 40px 100px;
+    margin: 20px;
+    span {
+      font-weight: 400;
+      color: #606266;
+    }
   }
   .desc {
-    color: #86909c;
+    color: #606266;
     margin-top: 10px;
     text-indent: 2em;
   }
