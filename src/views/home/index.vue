@@ -112,6 +112,7 @@ export default {
       // 浏览器宽度
       screenWidth: 0,
       Detail: [],
+      myState: null,
     };
   },
   methods: {
@@ -131,17 +132,20 @@ export default {
       if (this.$refs.upload) {
         this.$refs.upload.clearFiles(); // 清除上传的文件
       }
+
       const size = file.size / 1024 / 1024;
-      if (size > 2) {
+      if (size > 6) {
         this.$notify.warning({
           title: "警告",
-          message: "文件不能大于2M",
+          message: "文件不能大于6M",
+          duration: 1500,
         });
         return false;
       } else {
-        this.$notify.success({
-          title: "上传成功",
+        this.myState = this.$notify.success({
+          title: "正在识别中",
           message: "请稍等片刻",
+          duration: 0,
         });
         return false;
       }
@@ -169,9 +173,21 @@ export default {
         res = res.replace(/^data:image\/\w+;base64,/, "");
 
         request
-          .post("http://47.243.88.190:8889/classify", { imgBase64: res })
+          .post("http://localhost:3001/classify", { imgBase64: res })
           .then((Result) => {
-            this.Result = Result;
+            console.log(Result);
+            if (Result.code == 200) {
+              this.Result = Result.newslist;
+              this.myState.close();
+            } else {
+              this.myState.close();
+              this.Result = "";
+              this.$notify.warning({
+                title: "警告",
+                message: "识别失败，换张图片试试吧",
+                duration: 1500,
+              });
+            }
           });
       });
     },
