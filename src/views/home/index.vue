@@ -23,7 +23,7 @@
           >
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">
-              上传图片进行垃圾识别分类<br />请上传.jpg或.png文件，且不超过6M
+              上传图片进行垃圾识别分类<br />请上传.jpg或.png文件，且不超过3M
             </div>
           </el-upload>
         </div>
@@ -31,7 +31,7 @@
       <h3 v-for="items in Result" :key="items.name" class="result">
         垃圾名称：<span>{{ items.name }}</span
         ><br />
-        相识度：<span>{{ items.trust }}</span
+        相似度：<span>{{ items.trust }}</span
         ><br />
         垃圾种类：<span>{{
           items.lajitype == 0
@@ -75,13 +75,6 @@
                 >查看详情</el-button
               >
             </el-popover>
-            <!-- <el-table :data="Detail" stripe style="width: 50%">
-              <el-table-column prop="name" label="可回收垃圾目录" width="180">
-              </el-table-column>
-              <el-table-column prop="name" label="姓名" width="180">
-              </el-table-column>
-              <el-table-column prop="address" label="地址"> </el-table-column>
-            </el-table> -->
           </div>
         </div>
       </div>
@@ -179,9 +172,8 @@ export default {
           res = res.replace(/^data:image\/\w+;base64,/, "");
 
           request
-            .post("http://localhost:3001/classify", { imgBase64: res })
+            .post("http://47.243.88.190:8889/classify", { imgBase64: res })
             .then((Result) => {
-              console.log(Result);
               if (Result.code == 200) {
                 this.Result = Result.newslist;
                 this.myState.close();
