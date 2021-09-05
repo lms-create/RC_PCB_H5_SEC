@@ -331,7 +331,7 @@ div {
           font-size: 14px;
           margin-bottom: 3px;
           .name {
-            max-width: 150px;
+            max-width: 120px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
