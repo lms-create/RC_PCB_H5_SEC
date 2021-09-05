@@ -331,7 +331,10 @@ div {
           font-size: 14px;
           margin-bottom: 3px;
           .name {
-            margin-left: 50px;
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
           .right {
             color: #70cb7c;

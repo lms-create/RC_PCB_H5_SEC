@@ -23,7 +23,7 @@
           >
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">
-              上传图片进行垃圾识别分类<br />请上传.jpg或.png文件，且不超过2M
+              上传图片进行垃圾识别分类<br />请上传.jpg或.png文件，且不超过6M
             </div>
           </el-upload>
         </div>
@@ -173,7 +173,7 @@ export default {
         res = res.replace(/^data:image\/\w+;base64,/, "");
 
         request
-          .post("http://localhost:3001/classify", { imgBase64: res })
+          .post("http://47.243.88.190:8889/classify", { imgBase64: res })
           .then((Result) => {
             console.log(Result);
             if (Result.code == 200) {
