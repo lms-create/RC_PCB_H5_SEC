@@ -331,21 +331,22 @@ div {
           font-size: 14px;
           margin-bottom: 3px;
           .name {
-            max-width: 120px;
+            max-width: 150px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
           }
           .right {
             color: #70cb7c;
-            margin-left: 30px;
+            margin-left: 10px;
           }
           .error {
             color: #e35e52;
           }
           .normal {
             color: #aaaaaa;
-            margin-left: 30px;
+
+            margin-left: 10px;
           }
         }
       }
