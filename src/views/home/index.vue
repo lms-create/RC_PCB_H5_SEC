@@ -113,6 +113,7 @@ export default {
       screenWidth: 0,
       Detail: [],
       myState: null,
+      send: true,
     };
   },
   methods: {
@@ -129,15 +130,18 @@ export default {
       this.initSuccess = false;
     },
     uploadBefore(file) {
+      this.send = true;
       if (this.$refs.upload) {
         this.$refs.upload.clearFiles(); // 清除上传的文件
       }
 
       const size = file.size / 1024 / 1024;
-      if (size > 6) {
+      if (size > 3) {
+        this.send = false;
+
         this.$notify.warning({
           title: "警告",
-          message: "文件不能大于6M",
+          message: "文件不能大于3M",
           duration: 1500,
         });
         return false;
@@ -168,28 +172,31 @@ export default {
       });
     },
     getFile(file) {
-      //上传
-      this.getBase64File(file.raw).then((res) => {
-        res = res.replace(/^data:image\/\w+;base64,/, "");
+      setTimeout(() => {
+        if (!this.send) return;
+        //上传
+        this.getBase64File(file.raw).then((res) => {
+          res = res.replace(/^data:image\/\w+;base64,/, "");
 
-        request
-          .post("http://47.243.88.190:8889/classify", { imgBase64: res })
-          .then((Result) => {
-            console.log(Result);
-            if (Result.code == 200) {
-              this.Result = Result.newslist;
-              this.myState.close();
-            } else {
-              this.myState.close();
-              this.Result = "";
-              this.$notify.warning({
-                title: "警告",
-                message: "识别失败，换张图片试试吧",
-                duration: 1500,
-              });
-            }
-          });
-      });
+          request
+            .post("http://localhost:3001/classify", { imgBase64: res })
+            .then((Result) => {
+              console.log(Result);
+              if (Result.code == 200) {
+                this.Result = Result.newslist;
+                this.myState.close();
+              } else {
+                this.myState.close();
+                this.Result = "";
+                this.$notify.warning({
+                  title: "警告",
+                  message: "识别失败，换张图片试试吧",
+                  duration: 1500,
+                });
+              }
+            });
+        });
+      }, 0);
     },
     setSize: function () {
       // 通过浏览器宽度(图片宽度)计算高度
